@@ -1,13 +1,8 @@
 import ContactsServices from "../models/contacts.js"
 import { HttpError } from "../helpers/index.js"
-import Joi from "joi"
+
 import { ctrlWrapper } from "../decorators/index.js"
 
-const contactsAddSchema = Joi.object({
-    name: Joi.string().required(),
-    email: Joi.string().required(),
-    phone: Joi.string().required(),
-})
 
 const getAll = async (req, res) => {
     const result = await ContactsServices.listContacts();
@@ -24,10 +19,7 @@ const getById = async (req, res) => {
 }
 
 const add = async (req, res) => {
-        const { error } = contactsAddSchema.validate(req.body);
-        if (error) {
-            throw HttpError(404, error.message);
-        }
+        
         const result = await ContactsServices.addContact(req.body);
         res.status(201).json(result);    
 }
@@ -44,10 +36,7 @@ const deleteById = async (req, res, next) => {
 }
 
 const update = async (req, res) => {
-        const { error } = contactsAddSchema.validate(req.body);
-        if (error) {
-            throw HttpError(404, error.message);
-        }
+        
         const { contactId } = req.params;
         const result = await ContactsServices.updateContactById(contactId, req.body)
         if (!result) {
