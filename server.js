@@ -1,7 +1,8 @@
 import app from "./app.js";
 
 import mongoose from "mongoose";
-const DB_HOTST = "mongodb+srv://Mykola:aIQnw0v52JkrkBOW@cluster0.3bgq8wi.mongodb.net/contacts_db?retryWrites=true&w=majority";
+import { DB_HOTST } from "./config.js";
+
 mongoose.set("strictQuery", true);
  
 mongoose.connect(DB_HOTST).then(() => {
