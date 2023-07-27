@@ -17,7 +17,15 @@ const contactSchema = new Schema({
     },
 }, { versionKey: false, timestamps: true })
 
+contactSchema.pre("findOneAndUpdate", function (next) {
+    this.options.runValidators = true;
+    next();
+})
 contactSchema.post("save", (error, data, next) => {
+    error.status = 400;
+    next();
+});
+contactSchema.post("findOneAndUpdate", (error, data, next) => {
     error.status = 400;
     next();
 });
