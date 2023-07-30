@@ -5,6 +5,10 @@ const contactsAddSchema = Joi.object({
     phone: Joi.string().required(),
 })
 
+const contactUpdateFavSchema = Joi.object({
+    favorite: Joi.boolean().required()
+})
 export default {
     contactsAddSchema,
+    contactUpdateFavSchema,
 }
