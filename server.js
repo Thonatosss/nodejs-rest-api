@@ -1,9 +1,10 @@
 import app from "./app.js";
-import dotenv from "dotenv";
+import "dotenv/config";
 import mongoose from "mongoose";
 
-dotenv.config();
+
 const { DB_HOST, PORT } = process.env;
+console.log(DB_HOST, PORT);
 mongoose.set("strictQuery", true);
 console.log(DB_HOST);
 
