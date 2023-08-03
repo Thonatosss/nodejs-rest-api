@@ -9,7 +9,7 @@ const { JWT_SECRET } = process.env;
 
 
 const signup = async (req, res) => {
-    const { email, password } = req.body;
+    const { email, password, subscription} = req.body;
     const user = await User.findOne({email})
     if (user) { 
         throw HttpError(409, "Email is already taken");
@@ -20,6 +20,7 @@ const signup = async (req, res) => {
     res.status(201).json({
         name: newUser.name,
         email: newUser.email,
+        subscription: newUser.subscription,
     })
 
 };
@@ -27,6 +28,7 @@ const signup = async (req, res) => {
 const signin = async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
+    const { subscription } = user;
     if (!user) {
         throw HttpError(401, "Email or password invalid");
     }
@@ -41,13 +43,21 @@ const signin = async (req, res) => {
     await User.findByIdAndUpdate(user._id, {token})
     res.json({
         token,
+        user: {
+            email,
+            subscription
+            
+
+        }
     })
 }
 const getCurrent = async (req, res) => {
-    const { name, email } = req.user;
+    const { name, email, subscription } = req.user;
     res.json({
         name,
         email,
+        subscription
+        
      })
 }
 const signout = async (req, res) => {
