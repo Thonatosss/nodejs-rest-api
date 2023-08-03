@@ -20,7 +20,10 @@ const userSchema = new Schema({
         required: true,
         minlengh: 6,
 
-    }
+    },
+    token: {
+        type: String
+    },
 }, { versionKey: false, timestamps: true });
 userSchema.pre("findOneAndUpdate", validateAtUpdate);
 userSchema.post("save", handleServerError);
