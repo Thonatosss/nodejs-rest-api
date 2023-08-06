@@ -6,6 +6,7 @@ const contactSchema = new Schema({
         required: [true, 'Set name for contact'],
     },
     email: {
+        
         type: String,
     },
     phone: {
@@ -15,6 +16,12 @@ const contactSchema = new Schema({
         type: Boolean,
         default: false,
     },
+    owner: {
+        type: Schema.Types.ObjectId,
+        ref: "user",
+        required: true,
+    },
+    
 }, { versionKey: false, timestamps: true })
 
 contactSchema.pre("findOneAndUpdate", function (next) {
