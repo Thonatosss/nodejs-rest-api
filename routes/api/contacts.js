@@ -1,7 +1,7 @@
 import contactsController from "../../controllers/contact-controller.js";
 import express from "express"
 import contactsSchemas from "../../schemas/contacts-schemas.js";
-import { validateBody, isValidId, authenticate } from "../../middlewars/index.js";
+import { validateBody, isValidId, authenticate, upload } from "../../middlewars/index.js";
 
 
 const router = express.Router()
@@ -11,7 +11,7 @@ router.get('/', contactsController.getAll)
 
 router.get('/:contactId', isValidId, contactsController.getById)
 
-router.post('/', contactsController.add)
+router.post('/', upload.single("poster"), contactsController.add)
 
 router.delete('/:contactId', isValidId, contactsController.deleteById)
 

@@ -4,23 +4,27 @@ import HttpError from "../helpers/HttpError.js";
 import bcrypt from "bcryptjs"
 import "dotenv/config";
 import jwt from "jsonwebtoken";
+import gravatar from "gravatar";
 
 const { JWT_SECRET } = process.env;
 
 
 const signup = async (req, res) => {
-    const { email, password, subscription} = req.body;
+    const { email, password, } = req.body;
     const user = await User.findOne({email})
     if (user) { 
         throw HttpError(409, "Email is already taken");
     }
     const hashPassword = await bcrypt.hash(password, 10);
+    const avatar = gravatar.url(email, { protocol: 'http' })
 
-    const newUser = await User.create({...req.body, password: hashPassword});
+    const newUser = await User.create({...req.body, password: hashPassword, avatarUrl: avatar});
     res.status(201).json({
         name: newUser.name,
         email: newUser.email,
         subscription: newUser.subscription,
+        avatarUrl: avatar,
+       
     })
 
 };
