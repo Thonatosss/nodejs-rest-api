@@ -37,9 +37,11 @@ describe("test signin route", () => {
 
         const { statusCode, body } = await request(app).post("/api/auth/login").send(loginData);
         expect(statusCode).toBe(200);
-        
+
         expect(body.user.email).toBe(recivedData.email)
         expect(body.user.subscription).toBe(recivedData.subscription);
+
+        expect(body).toHaveProperty('token');
 
         expect(body.user).toHaveProperty('email');
         expect(body.user).toHaveProperty('subscription');
