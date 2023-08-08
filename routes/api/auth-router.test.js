@@ -21,20 +21,29 @@ describe("test signin route", () => {
     afterAll(async () => {
         await mongoose.connection.close();
         server.close();
-    })
+    });
+    afterEach(async() => {
+        await User.deleteMany({});
+    });
 
     test("test login with correct data", async () => {
+        const registerData = {
+            name: "Alex",
+            email: "dasjadsj@mail.com",
+            password: "123456"
+        }
         const loginData = {
-            email: "dfsjsfd@gmail.com",
+            email: "dasjadsj@mail.com",
             password: "123456",
         }
         const recivedData = {
-            email: "dfsjsfd@gmail.com",
+            email: "dasjadsj@mail.com",
             subscription: 'starter',
 
         }
         
 
+        await request(app).post("/api/auth/register").send(registerData);
         const { statusCode, body } = await request(app).post("/api/auth/login").send(loginData);
         expect(statusCode).toBe(200);
 
